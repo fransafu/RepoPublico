@@ -3,6 +3,7 @@
 namespace RepoPublico\Http\Controllers\Auth;
 
 use RepoPublico\User;
+use RepoPublico\Rol;
 use RepoPublico\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -55,17 +56,23 @@ class RegisterController extends Controller
     }
 
     /**
-     * Create a new user instance after a valid registration.
+     * Crear una nueva instancia despues de validar el registro
      *
      * @param  array  $data
      * @return \RepoPublico\User
      */
-    protected function create(array $data)
-    {
-        return User::create([
+    protected function create(array $data){
+        $rol_usuario = Rol::where("titulo", "Usuario")->first();
+
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+
+        $user->rol_id = $rol_usuario->id;
+
+        return $user;
+
     }
 }
