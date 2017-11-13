@@ -10,8 +10,8 @@ class RoleTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
-    {
+    public function run(){
+        // Crear rol
         $rol_admin = new Rol();
         $rol_admin->titulo = "Administrador";
         $rol_admin->descripcion = "Administrador del portal";

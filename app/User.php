@@ -27,6 +27,9 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    /**
+    * Funcion para relaciónn entre entidades del modelo
+    */
     public function rol(){
         return $this->belongsTo('RepoPublico\Rol');
     }
@@ -37,19 +40,18 @@ class User extends Authenticatable
     public function authorizeRoles($roles){
       if (is_array($roles)) {
           return $this->hasAnyRole($roles) || 
-                 abort(401, 'This action is unauthorized.');
+                 abort(401, 'Esta accion esta desautorizada.');
       }
       return $this->hasRole($roles) || 
-             abort(401, 'This action is unauthorized.');
+             abort(401, 'Esta accion esta desautorizada.');
     }
 
     /**
-    * Verificar multiples roles
+    * Verificar multiples roles. Obtiene los roles disponibles.
+    *
     * @param array $roles
     */
-    public function hasAnyRole($roles)
-    {
-        //dd($roles);
+    public function hasAnyRole($roles){
         return null !== $this->rol()->whereIn('titulo', $roles)->first();
     }
 
@@ -57,8 +59,7 @@ class User extends Authenticatable
     * Verificar un rol
     * @param string $role
     */
-    public function hasRole($role)
-    {
+    public function hasRole($role){
         dd($role);
         return null !== $this->rol()->where('titulo', $role)->first();
     }
